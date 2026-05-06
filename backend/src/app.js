@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import routes from './routes/index.js';
 import { notFound, errorHandler } from './middleware/error.js';
+import { connectDB } from './config/db.js';
 
 const app = express();
 
@@ -35,8 +36,18 @@ app.post(
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/health', (_req, res) => res.json({ ok: true, service: 'remote-center-ke', ts: Date.now() }));
+app.get(['/health', '/api/health'], (_req, res) =>
+  res.json({ ok: true, service: 'remote-center-ke', ts: Date.now() })
+);
 
+app.use('/api/v1', async (_req, _res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 app.use('/api/v1', routes);
 
 app.use(notFound);

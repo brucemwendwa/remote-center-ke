@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
+let connectionPromise = null;
+
 export async function connectDB() {
+  if (mongoose.connection.readyState === 1) return mongoose.connection;
+  if (connectionPromise) return connectionPromise;
+
   const uri =
     process.env.MONGO_URI ||
     (process.env.NODE_ENV === 'production' ? null : 'mongodb://127.0.0.1:27017/remote_center_ke');
@@ -9,6 +14,16 @@ export async function connectDB() {
     console.warn('[db] MONGO_URI not set, using local development database');
   }
   mongoose.set('strictQuery', true);
-  await mongoose.connect(uri, { autoIndex: true });
-  console.log('[db] connected');
+  connectionPromise = mongoose
+    .connect(uri, { autoIndex: true })
+    .then(() => {
+      console.log('[db] connected');
+      return mongoose.connection;
+    })
+    .catch((err) => {
+      connectionPromise = null;
+      throw err;
+    });
+
+  return connectionPromise;
 }

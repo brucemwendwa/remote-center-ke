@@ -66,10 +66,12 @@ export default function Checkout() {
         setMpesaOpen(true);
         try { await initiateMpesa({ orderId: order._id, phone: form.phone, amount: total }); } catch {}
         const socket = getSocket();
-        const ok = await new Promise((resolve) => {
-          const t = setTimeout(() => resolve(false), 5000);
-          socket.once('payment:confirmed', () => { clearTimeout(t); resolve(true); });
-        });
+        const ok = socket
+          ? await new Promise((resolve) => {
+              const t = setTimeout(() => resolve(false), 5000);
+              socket.once('payment:confirmed', () => { clearTimeout(t); resolve(true); });
+            })
+          : false;
         setMpesaOpen(false);
         if (!ok) toast('Continuing without socket confirmation (demo mode)', { icon: 'ℹ️' });
       } else if (payment === 'card') {
