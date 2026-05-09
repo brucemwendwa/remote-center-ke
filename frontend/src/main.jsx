@@ -5,12 +5,31 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import App from './App';
+import { DEMO_DATA_EVENT, DEMO_STORAGE_KEYS } from '@/lib/demoStore';
 import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: { retry: 1, refetchOnWindowFocus: false, staleTime: 1000 * 60 },
   },
+});
+
+const refreshDemoQueries = () => {
+  queryClient.invalidateQueries({ queryKey: ['products'] });
+  queryClient.invalidateQueries({ queryKey: ['featured'] });
+  queryClient.invalidateQueries({ queryKey: ['product'] });
+  queryClient.invalidateQueries({ queryKey: ['related'] });
+  queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+  queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+  queryClient.invalidateQueries({ queryKey: ['admin-customers'] });
+  queryClient.invalidateQueries({ queryKey: ['admin-stats'] });
+  queryClient.invalidateQueries({ queryKey: ['admin-coupons'] });
+  queryClient.invalidateQueries({ queryKey: ['admin-banners'] });
+};
+
+window.addEventListener(DEMO_DATA_EVENT, refreshDemoQueries);
+window.addEventListener('storage', (event) => {
+  if (Object.values(DEMO_STORAGE_KEYS).includes(event.key)) refreshDemoQueries();
 });
 
 // Apply theme class on first load
