@@ -1,7 +1,33 @@
 import { Instagram } from 'lucide-react';
 
+const posts = [
+  {
+    src: 'https://samsungparts.com/cdn/shop/products/imageDisplay_79ca8a02-7296-43e7-bc34-7878c023fc1d_1024x1024.jpg?v=1681233493',
+    alt: 'Samsung curved TV remote',
+  },
+  {
+    src: 'https://www.intercyprus.com/cdn/shop/files/Se892555d6ccf4ce0915d5a65243267b7U.webp?v=1755852897',
+    alt: 'Samsung Bluetooth voice remote',
+  },
+  {
+    src: 'https://tilvon.com/wp-content/uploads/2025/11/tcl-smart-remote-1000x1000.webp',
+    alt: 'TCL smart remote',
+  },
+  {
+    src: 'https://simplecellshop.com/cdn/shop/files/sc-r6894-5_b1761933-51df-42c3-80b5-f8304870df06_1024x.jpg?v=1754510718',
+    alt: 'Hisense smart remote',
+  },
+  {
+    src: 'https://www.lg.com/content/dam/channel/wcms/au/images/tv-accessories/akb76036204_au_c/gallery/D-01.jpg',
+    alt: 'LG Magic Remote',
+  },
+  {
+    src: 'https://pictures-kenya.jijistatic.com/70242796_NjIwLTgyNy01NTVlNzJlMjgz.webp',
+    alt: 'Amtec GLD Royal smart remote',
+  },
+];
+
 export default function InstagramGallery() {
-  const tiles = Array.from({ length: 6 }, (_, i) => i + 1);
   return (
     <section className="container-page py-12">
       <div className="flex items-center justify-between mb-5">
@@ -17,12 +43,12 @@ export default function InstagramGallery() {
         </a>
       </div>
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-        {tiles.map((i) => (
+        {posts.map((post) => (
           <a
-            key={i} href="https://instagram.com/remote_center.ke" target="_blank" rel="noreferrer"
+            key={post.src} href="https://instagram.com/remote_center.ke" target="_blank" rel="noreferrer"
             className="block aspect-square rounded-2xl overflow-hidden relative group"
           >
-            <img src={`https://picsum.photos/seed/ig${i}/400/400`} alt="" className="w-full h-full object-cover transition group-hover:scale-110" />
+            <img src={post.src} alt={post.alt} className="w-full h-full object-cover transition group-hover:scale-110" />
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
               <Instagram size={22} />
             </div>
