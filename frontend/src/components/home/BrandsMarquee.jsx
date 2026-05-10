@@ -20,24 +20,24 @@ export default function BrandsMarquee() {
   const list = [...brandLogos, ...brandLogos];
 
   return (
-    <section className="py-8 border-y border-white/10 bg-white/[0.02] overflow-hidden">
-      <div className="flex animate-marquee items-center whitespace-nowrap">
+    <section className="overflow-hidden border-y border-white/10 bg-white/[0.02] py-5 sm:py-8">
+      <div className="flex animate-marquee items-center gap-2 whitespace-nowrap sm:gap-6">
         {list.map((brand, i) => (
           <div
             key={`${brand.name}-${i}`}
-            className="mx-3 flex h-16 w-40 shrink-0 items-center justify-center rounded-lg bg-white px-6 shadow-sm ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-lg"
+            className="flex h-10 w-20 shrink-0 items-center justify-center rounded-md bg-white px-3 shadow-sm ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:shadow-lg sm:h-16 sm:w-40 sm:rounded-lg sm:px-6"
             title={brand.name}
           >
             {brand.src ? (
               <img
                 src={brand.src}
                 alt={`${brand.name} logo`}
-                className="max-h-9 max-w-28 object-contain"
+                className="max-h-6 max-w-14 object-contain sm:max-h-9 sm:max-w-28"
                 loading="lazy"
               />
             ) : (
               <span
-                className={`flex h-10 min-w-24 items-center justify-center rounded px-4 text-sm font-black tracking-[0.18em] ${brand.markClassName}`}
+                className={`flex h-7 min-w-14 items-center justify-center rounded px-2 text-[10px] font-black tracking-[0.14em] sm:h-10 sm:min-w-24 sm:px-4 sm:text-sm sm:tracking-[0.18em] ${brand.markClassName}`}
                 aria-label={`${brand.name} logo`}
               >
                 {brand.mark}
